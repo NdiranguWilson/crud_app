@@ -1,5 +1,4 @@
-
-@extends('app')
+@extends('master')
 
 @section('content')
 
@@ -49,3 +48,4 @@
     </div>
 </div>
 {!! Form::close() !!}
+@endsection

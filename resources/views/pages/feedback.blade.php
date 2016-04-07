@@ -1,4 +1,4 @@
-@extends('app')
+@extends('master')
 
 @section('content')
     <div class="row">
@@ -12,3 +12,4 @@
         </div>
 
     </div>
+@endsection

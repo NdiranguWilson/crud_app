@@ -20,33 +20,39 @@ class PagesController extends Controller
      */
     public function index()
     {
-        return view("welcome");
+        return view("pages.welcome");
     }
 
-    public function login(){
+    public function login()
+    {
 
         return view("auth.login");
     }
 
-    public function register(){
+    public function register()
+    {
 
         return view("auth.register");
 
     }
-    public function contacts(){
+
+    public function contacts()
+    {
 
         return view('pages.contacts');
     }
 
-    public function feedback(){
+    public function feedback()
+    {
 
-        $results=Contact::get();
+        $results = Contact::get();
 
-        return view ('pages.feedback',compact('results'));
+        return view('pages.feedback', compact('results'));
     }
+
     public function postLogin(Request $request)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'email' => 'required|max:255',
             'password' => 'required',
 
@@ -57,23 +63,23 @@ class PagesController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-        $user = User::where('email', '=',$request->email )->first();
+        $user = User::where('email', '=', $request->email)->first();
         if ($user === null) {
             return redirect('login');
-        }
-        else{
-           if (bcrypt($request->password)==$user->password){
+        } else {
+            if (bcrypt($request->password) == $user->password) {
 
-               return redirect('contacts');
-           }
+                return redirect('login');
+            }
 
-            return redirect('login');
+            return redirect('contacts');
         }
 
     }
 
-    public function storeContacts(Request $request){
-        $validator = Validator::make($request->all(),[
+    public function storeContacts(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
 
             'message' => 'required',
             'subject' => 'required',
@@ -88,7 +94,7 @@ class PagesController extends Controller
                 ->withInput();
         }
 
-        $data=[
+        $data = [
 
             'message' => $request->get('message'),
             'mailing address' => $request->get('mailing'),
@@ -115,13 +121,13 @@ class PagesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         //validating register users data
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
             'email' => 'required|email',
             'pass' => 'required',
@@ -134,12 +140,12 @@ class PagesController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-        $data=[
+        $data = [
             'name' => $request->get('name'),
             'email' => $request->get('email'),
             'password' => bcrypt($request->get('pass'))
 
-       ];
+        ];
         User::insert($data);
         return Redirect::route('contacts');
 
@@ -149,7 +155,7 @@ class PagesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -160,7 +166,7 @@ class PagesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -171,8 +177,8 @@ class PagesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -184,7 +190,7 @@ class PagesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
