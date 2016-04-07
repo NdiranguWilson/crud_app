@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Validator, Input, Redirect;
 use App\User;
+use DateTime;
+use App\Contact;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -31,6 +33,75 @@ class PagesController extends Controller
         return view("auth.register");
 
     }
+    public function contacts(){
+
+        return view('pages.contacts');
+    }
+
+    public function feedback(){
+
+        $results=Contact::get();
+
+        return view ('pages.feedback',compact('results'));
+    }
+    public function postLogin(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            'email' => 'required|max:255',
+            'password' => 'required',
+
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('login')
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $user = User::where('email', '=',$request->email )->first();
+        if ($user === null) {
+            return redirect('login');
+        }
+        else{
+           if (bcrypt($request->password)==$user->password){
+
+               return redirect('contacts');
+           }
+
+            return redirect('login');
+        }
+
+    }
+
+    public function storeContacts(Request $request){
+        $validator = Validator::make($request->all(),[
+
+            'message' => 'required',
+            'subject' => 'required',
+            'phone_number' => 'required',
+
+
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('login')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $data=[
+
+            'message' => $request->get('message'),
+            'mailing address' => $request->get('mailing'),
+            'subject' => $request->get('subject'),
+            'phone_number' => $request->get('phone_number'),
+
+            'created_at' => new DateTime()
+        ];
+        Contact::insert($data);
+        return Redirect::route('home');
+    }
+
+
     /**
      * Show the form for creating a new resource.
      *
@@ -70,9 +141,10 @@ class PagesController extends Controller
 
        ];
         User::insert($data);
-        return Redirect::route('home');
+        return Redirect::route('contacts');
 
     }
+
 
     /**
      * Display the specified resource.

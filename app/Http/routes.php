@@ -14,7 +14,11 @@
 Route::get('/', 'PagesController@index')->name('home');
 Route::get('login','PagesController@login')->name('login');
 Route::get('register',"PagesController@register")->name('register');
+Route::get('contacts',"PagesController@contacts")->name('contacts');
+Route::get('feedback',"PagesController@feedback")->name('feedback');
+Route::post('contacts',"PagesController@storeContacts")->name('contacts_store');
 
 Route::post('register', 'PagesController@store');
+
 Route::post('login', 'PagesController@postLogin');
 

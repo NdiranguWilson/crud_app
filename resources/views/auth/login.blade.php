@@ -1,7 +1,7 @@
 @extends('app')
 
 @section('content')
-    {!! Form::open() !!}
+    {!! Form::open(['route'=>'login']) !!}
     <div class="container">
 
 
@@ -21,7 +21,7 @@
                 {!! Form::password('password', null,
                     array('required',
                           'class'=>'form-control',
-                          'placeholder'=>'Your e-mail address *')) !!}
+                          'placeholder'=>'')) !!}
             </div>
 
             <div class="form-group">
