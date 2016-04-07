@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Validator, Input, Redirect;
+use App\User;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -47,7 +49,29 @@ class PagesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //validating register users data
+        $validator = Validator::make($request->all(),[
+            'name' => 'required|max:255',
+            'email' => 'required|email',
+            'pass' => 'required',
+            'repeatpass' => 'required',
+
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('register')
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $data=[
+            'name' => $request->get('name'),
+            'email' => $request->get('email'),
+            'password' => bcrypt($request->get('pass'))
+
+       ];
+        User::insert($data);
+        return Redirect::route('home');
+
     }
 
     /**
@@ -81,6 +105,7 @@ class PagesController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         //
     }
 
