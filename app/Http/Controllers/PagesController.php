@@ -13,6 +13,6 @@ class PagesController extends Controller
     public function index()
     {
       # code...
-      return view("welcome")
+      return view("welcome");
     }
 }
