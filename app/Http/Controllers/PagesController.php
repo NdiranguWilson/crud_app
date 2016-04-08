@@ -234,7 +234,9 @@ class PagesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $comment=Contact::where('phone_number',$id)->first();
+
+        return view ('pages.edit',compact('comment'));
     }
 
     /**
@@ -247,7 +249,9 @@ class PagesController extends Controller
     public function update(Request $request, $id)
     {
 
-        //
+        (Contact::where('phone_number', '=', $id)->update(array('message' => $request->message)));
+
+        return redirect('feedback');
     }
 
     /**
@@ -258,6 +262,19 @@ class PagesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Contact::where('phone_number', '=', $id)->first()->delete();
+
+        return redirect('contacts');
+    }
+
+    public function sendEmailReminder(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        Mail::send('pages.contact', ['user' => $user], function ($m) use ($user) {
+            $m->from('hello@app.com', 'Your Application');
+
+            $m->to($user->email, $user->name)->subject('Your Reminder!');
+        });
     }
 }

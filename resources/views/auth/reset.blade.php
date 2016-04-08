@@ -30,7 +30,7 @@
         </div>
 
         <div class="form-group">
-            {!! Form::submit('delete comment!',
+            {!! Form::submit('update!',
               array('class'=>'btn btn-primary')) !!}
         </div>
     </div>

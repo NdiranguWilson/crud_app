@@ -2,23 +2,13 @@
 
 @section('content')
 
-    {!! Form::open(['route'=>'edit']) !!}
+    {!! Form::model($comment,['url'=>'/updatecomment/' .$comment->phone_number]) !!}
     <div class="container">
 
-
-        <div class="col-md-6">
-            <p> Delete a  message associated with a particular phone number</p>
+{!! Form::text('message', null, [ ]) !!}
 
             <div class="form-group">
-                {!! Form::label('Mobile Number') !!}
-                {!! Form::text('phone_number', null,
-                    array(
-                          'class'=>'form-control',
-                          'placeholder'=>'+254..*')) !!}
-            </div>
-
-            <div class="form-group">
-                {!! Form::submit('delete comment!',
+                {!! Form::submit('edit comment!',
                   array('class'=>'btn btn-primary')) !!}
             </div>
         </div>

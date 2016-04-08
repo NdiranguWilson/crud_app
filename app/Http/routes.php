@@ -19,6 +19,9 @@ Route::get('feedback', "PagesController@feedback")->name('feedback');
 Route::get('edit', "PagesController@editPage")->name('edit');
 Route::get('reset', "PagesController@reset")->name('reset');
 Route::post('reset', "PagesController@postReset")->name('reset');
+Route::get('deletecomment/{id}', "PagesController@destroy")->name('deletecomment');
+Route::get('updatecomment/{id}', "PagesController@edit")->name('updatecomment');
+Route::post('updatecomment/{id}', "PagesController@update")->name('updatecomment');
 Route::post('edit', "PagesController@postEdit")->name('edit');
 Route::post('contacts', "PagesController@storeContacts")->name('contacts_store');
 
