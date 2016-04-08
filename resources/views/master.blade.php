@@ -28,9 +28,10 @@
 
 
             <ul class="nav navbar-nav navbar-right">
-
-                <li><a href="{{ url('/feedback') }}">feedback</a></li>
                 <li><a href="{{ url('/contacts') }}">contacts</a></li>
+                <li><a href="{{ url('/feedback') }}">feedback</a></li>
+                <li><a href="{{ url('/edit') }}">edit</a></li>
+
 
 
             </ul>

@@ -7,6 +7,7 @@ use Validator, Input, Redirect;
 use App\User;
 use DateTime;
 use App\Contact;
+use Hash;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -42,6 +43,68 @@ class PagesController extends Controller
         return view('pages.contacts');
     }
 
+    public function editPage()
+    {
+
+        return view('pages.edit');
+    }
+
+    public function reset()
+    {
+
+        return view('auth.reset');
+
+    }
+
+    public function postReset(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|max:255',
+            'password' => 'required',
+            'passwordr' => 'required|same:password',
+
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('login')
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $user = User::where('email', '=', $request->email)->first();
+        if ($user === null) {
+            return redirect('edit');
+        } else {
+            User::where('email', '=', $request->email)->update(array('password' => bcrypt($request->password)));
+
+            return redirect('contacts');
+        }
+
+    }
+
+    public function postEdit(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required',
+
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('login')
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $user = Contact::where('phone_number', '=', $request->phone_number)->first();
+        if ($user === null) {
+            return redirect('edit');
+        } else {
+            Contact::where('phone_number', '=', $request->phone_number)->first()->delete();
+
+            return redirect('contacts');
+        }
+
+    }
+
     public function feedback()
     {
 
@@ -67,12 +130,12 @@ class PagesController extends Controller
         if ($user === null) {
             return redirect('login');
         } else {
-            if (bcrypt($request->password) == $user->password) {
+            if (Hash::check(($request->password), $user->password)) {
 
-                return redirect('login');
+                return Redirect::route('contacts');
             }
 
-            return redirect('contacts');
+            return redirect('login');
         }
 
     }
@@ -104,7 +167,7 @@ class PagesController extends Controller
             'created_at' => new DateTime()
         ];
         Contact::insert($data);
-        return Redirect::route('home');
+        return Redirect::route('feedback');
     }
 
 

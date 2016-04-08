@@ -12,11 +12,15 @@
 */
 
 Route::get('/', 'PagesController@index')->name('home');
-Route::get('login','PagesController@login')->name('login');
-Route::get('register',"PagesController@register")->name('register');
-Route::get('contacts',"PagesController@contacts")->name('contacts');
-Route::get('feedback',"PagesController@feedback")->name('feedback');
-Route::post('contacts',"PagesController@storeContacts")->name('contacts_store');
+Route::get('login', 'PagesController@login')->name('login');
+Route::get('register', "PagesController@register")->name('register');
+Route::get('contacts', "PagesController@contacts")->name('contacts');
+Route::get('feedback', "PagesController@feedback")->name('feedback');
+Route::get('edit', "PagesController@editPage")->name('edit');
+Route::get('reset', "PagesController@reset")->name('reset');
+Route::post('reset', "PagesController@postReset")->name('reset');
+Route::post('edit', "PagesController@postEdit")->name('edit');
+Route::post('contacts', "PagesController@storeContacts")->name('contacts_store');
 
 Route::post('register', 'PagesController@store');
 
